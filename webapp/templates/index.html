@@ -1,5 +1,7 @@
-<html>
-<body>
-<h1>SambaTech Test</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+{{ s3_upload_form.as_form_html|safe }}
+
+{% endblock content %}

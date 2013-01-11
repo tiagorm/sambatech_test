@@ -14,5 +14,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    (r'^file_uploaded/', 'sambatech_test.views.file_uploaded'),
     (r'^$', 'sambatech_test.views.index'),
 )

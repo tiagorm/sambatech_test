@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>FILE UPLOADED</p>
+    <ul>
+    	<li>BUCKET: {{ bucket }}</li>
+    	<li>KEY: {{ key }}</li>
+    	<li>ETAG: {{ etag }}</li>
+    </ul>
+    <p><a href="http://{{ bucket }}.s3.amazonaws.com/{{ key }}" target= "_blank">Click here</a> to download the file from Amazon S3.</p>
+{% endblock content %}
