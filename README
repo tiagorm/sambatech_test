@@ -1,3 +1,6 @@
 Projeto criado para o teste de seleção da SambaTech
 
-- Aplicação Web criada usango Django no diretorio webapp
+Aplicação Web criada usango Django no diretorio webapp
+
+Funcionamente e decisões de implementação:
+    - Formulário envia arquivo diretamente para o Amazon S3, na pasta uploads
