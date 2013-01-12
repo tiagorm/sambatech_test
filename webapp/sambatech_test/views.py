@@ -89,7 +89,7 @@ class S3UploadForm(forms.Form):
         return True
     
     def action(self):
-        return 'https://%s.s3.amazonaws.com/' % self.bucket
+        return 'http://%s.s3.amazonaws.com/' % self.bucket
     
     def calculate_policy(self):
         conditions = [
