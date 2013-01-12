@@ -159,3 +159,6 @@ LOGGING = {
 #Variables used to access Amazon S3
 AWS_ACCESS_KEY_ID = "AKIAI7IV36A4Z6JOP75Q"
 AWS_SECRET_ACCESS_KEY = "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"
+
+#Variables used to access Zencoder API
+ZENCODER_API_KEY = "8309ab7b16b6c3dfb0d1a4970a9520f5"

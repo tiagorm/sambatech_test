@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>FILE UPLOADED</p>
+    <p>ARQUIVO ENVIADO</p>
     <ul>
     	<li>BUCKET: {{ bucket }}</li>
     	<li>KEY: {{ key }}</li>
     	<li>ETAG: {{ etag }}</li>
     </ul>
-    <p><a href="http://{{ bucket }}.s3.amazonaws.com/{{ key }}" target= "_blank">Click here</a> to download the file from Amazon S3.</p>
+    <p><a href="http://{{ bucket }}.s3.amazonaws.com/{{ key }}" target= "_blank">Clique aqui</a> para fazer o download do arquivo salvo no Amazon S3.</p>
+	
+	<p><a href="/convert/?bucket={{ bucket }}&key={{ key }}&etag={{ etag }}">Clique aqui para converter seu vídeo para a web.</a></p>
+
+	<div id="passos">
+		PASSO 2 DE 4
+	</div>
 {% endblock content %}

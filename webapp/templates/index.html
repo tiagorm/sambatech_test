@@ -2,6 +2,14 @@
 
 {% block content %}
 
-{{ s3_upload_form.as_form_html|safe }}
+<p>ESCOLHA UM ARQUIVO DE VIDEO NO FORMATO .DV PARA CONVERTER PARA O FORMATO .MP4</p>
+
+<div id="s3_upload_form">
+	{{ s3_upload_form.as_form_html|safe }}
+</div>
+
+<div id="passos">
+	PASSO 1 DE 4
+</div>
 
 {% endblock content %}

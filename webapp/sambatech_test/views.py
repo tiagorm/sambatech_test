@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
 import settings
+import re, time
 
 #Code from http://djangosnippets.org/snippets/1868/
 
@@ -171,6 +172,95 @@ def file_uploaded(request):
                 'bucket': bucket,
                 'key': key,
                 'etag': etag,
+               },
+              context_instance=RequestContext(request)
+              )
+
+def convert(request):
+    
+    bucket = None
+    key = None
+    etag = None
+    error = False
+    error_message = ""
+    output_video_url = ""
+    
+    if request.method == 'GET':
+        if len(request.GET):
+            try:
+                bucket = request.GET.get('bucket')
+            except:
+                error = True
+                bucket = "ERROR"
+            try:
+                key = request.GET.get('key')
+            except:
+                error = True
+                key = "ERROR"
+            try:
+                etag = request.GET.get('etag')
+            except:
+                error = True
+                etag = "ERROR"
+    
+            if not error:
+                from zencoder import Zencoder
+                zen = Zencoder(api_key=settings.ZENCODER_API_KEY)
+                
+                #creates an encoding job
+                
+                #RE_FILENAME = re.compile("(\d+)-(\d+)-(\d+)\_(\d+)-(\d+)-(\d+)\_(\d+)-(\d+)-(\d+)-(\d+)\_(\S+).dv")
+                RE_FILENAME = re.compile("uploads/(\d+-\d+-\d+_\d+-\d+-\d+_\d+-\d+-\d+-\d+_\S+)\.\S+$")
+                fields = re.match(RE_FILENAME,key)
+                if fields:
+                    input_url = "s3://"+bucket+"/"+key
+                    web = {
+                           'label': 'web',
+                           'url': "s3://"+bucket+"/public_videos/"+fields.group(1)+".mp4",
+                           'public': True
+                           }
+                    outputs = ( web )
+                    job = zen.job.create(input_url, outputs=outputs)
+                    
+                    MAXTRY = 100
+                    count = 0
+                    while count < MAXTRY:
+                        count += 1
+                        progress = zen.output.progress(job.body['outputs'][0]['id'])
+                        print progress.body
+                        state = progress.body['state']
+                        print state
+                        
+                        if state == "pending" or state == "waiting" or state == "processing" or state == "queued":
+                            time.sleep(3)
+                        elif state == "finished":
+                            output_video_url = "http://"+bucket+".s3.amazonaws.com/public_videos/"+fields.group(1)+".mp4"
+                            break
+                        elif state == "failed":
+                            error = True
+                            error_message = "Falha ao converter arquivo no Zencoder."
+                            break
+                        elif state == "cancelled":
+                            error = True
+                            error_message = "Processo de converter arquivo cancelado no Zencoder."
+                            break
+                        else:
+                            error = True
+                            error_message = "Erro state <"+str(state)+"> na API do Zencoder."
+                            break
+                else:
+                    error = True
+                
+                #job = zen.job.create(url)
+    return render_to_response(
+              'convert.html',
+              {
+                'bucket': bucket,
+                'key': key,
+                'etag': etag,
+                'output_video_url': output_video_url,
+                'error': error,
+                'error_message': error_message
                },
               context_instance=RequestContext(request)
               )
