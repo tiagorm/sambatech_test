@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>PLAY VIDEO</p>
+    <ul>
+    	<li>BUCKET: {{ bucket }}</li>
+    	<li>KEY: {{ key }}</li>
+    	<li>ETAG: {{ etag }}</li>
+    </ul>
+	
+	<div id="play_video">
+		<video id="vid" width="640" height="360" controls="controls">
+           <source src="{{ output_video_url }}" type="video/mp4" />       
+		</video>
+	</div>
+	
+	<div id="passos">
+		PASSO 4 DE 4
+	</div>
+	
+{% endblock content %}

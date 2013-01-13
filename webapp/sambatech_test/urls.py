@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     (r'^file_uploaded/', 'sambatech_test.views.file_uploaded'),
     (r'^convert/', 'sambatech_test.views.convert'),
+    (r'^play_video/', 'sambatech_test.views.play_video'),
     (r'^$', 'sambatech_test.views.index'),
 )

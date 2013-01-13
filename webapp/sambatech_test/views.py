@@ -208,8 +208,6 @@ def convert(request):
                 zen = Zencoder(api_key=settings.ZENCODER_API_KEY)
                 
                 #creates an encoding job
-                
-                #RE_FILENAME = re.compile("(\d+)-(\d+)-(\d+)\_(\d+)-(\d+)-(\d+)\_(\d+)-(\d+)-(\d+)-(\d+)\_(\S+).dv")
                 RE_FILENAME = re.compile("uploads/(\d+-\d+-\d+_\d+-\d+-\d+_\d+-\d+-\d+-\d+_\S+)\.\S+$")
                 fields = re.match(RE_FILENAME,key)
                 if fields:
@@ -227,9 +225,7 @@ def convert(request):
                     while count < MAXTRY:
                         count += 1
                         progress = zen.output.progress(job.body['outputs'][0]['id'])
-                        print progress.body
                         state = progress.body['state']
-                        print state
                         
                         if state == "pending" or state == "waiting" or state == "processing" or state == "queued":
                             time.sleep(3)
@@ -261,6 +257,51 @@ def convert(request):
                 'output_video_url': output_video_url,
                 'error': error,
                 'error_message': error_message
+               },
+              context_instance=RequestContext(request)
+              )
+
+def play_video(request):
+    
+    bucket = None
+    key = None
+    etag = None
+    output_video_url = ""
+    error = False
+    
+    if request.method == 'GET':
+        if len(request.GET):
+            try:
+                bucket = request.GET.get('bucket')
+            except:
+                error = True
+                bucket = "ERROR"
+            try:
+                key = request.GET.get('key')
+            except:
+                error = True
+                key = "ERROR"
+            try:
+                etag = request.GET.get('etag')
+            except:
+                error = True
+                etag = "ERROR"
+    
+            if not error:
+                RE_FILENAME = re.compile("uploads/(\d+-\d+-\d+_\d+-\d+-\d+_\d+-\d+-\d+-\d+_\S+)\.\S+$")
+                fields = re.match(RE_FILENAME,key)
+                if fields:                    
+                    output_video_url = "http://"+bucket+".s3.amazonaws.com/public_videos/"+fields.group(1)+".mp4"
+                            
+                
+                #job = zen.job.create(url)
+    return render_to_response(
+              'play_video.html',
+              {
+                'bucket': bucket,
+                'key': key,
+                'etag': etag,
+                'output_video_url': output_video_url
                },
               context_instance=RequestContext(request)
               )

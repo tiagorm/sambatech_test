@@ -13,7 +13,7 @@
     	<p>{{ error_message }}</p>
     {% else %}
     	<p>ARQUIVO CONVERTIDO CORRETAMENTE</p>
-    	Clique aqui para visualizar o vídeo
+    	<p><a href="/play_video/?bucket={{ bucket }}&key={{ key }}&etag={{ etag }}">Clique aqui para visualizar o vídeo.</a></p>
     	<p><a href="{{ output_video_url }}" target= "_blank">Clique aqui</a> para fazer o download do arquivo salvo no Amazon S3.</p>
     {% endif %}
 	
