@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
+{% block instruction %}
+	<p>ASSISTA O VÍDEO CONVERTIDO E ARMAZENADO NO AMAZON S3</p>
+{% endblock instruction %}
+
 {% block content %}
-    <p>PLAY VIDEO</p>
-    <ul>
-    	<li>BUCKET: {{ bucket }}</li>
-    	<li>KEY: {{ key }}</li>
-    	<li>ETAG: {{ etag }}</li>
-    </ul>
 	
 	<div id="play_video">
 		<video id="vid" width="640" height="360" controls="controls">
@@ -14,8 +12,10 @@
 		</video>
 	</div>
 	
-	<div id="passos">
-		PASSO 4 DE 4
-	</div>
+	<p><a href="/">Enviar outro vídeo</a></p>
 	
 {% endblock content %}
+
+{% block steps %}
+	<p align="center">PASSO 4 DE 4</p>
+{% endblock steps %}

@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 
+{% block instruction %}
+	<p>CONVERTENDO ARQUIVO .DV PARA .MP4 USANDO A API DO zencoder.com E ENVIANDO AO AMAZON S3</p>
+{% endblock instruction %}
+
 {% block content %}
-    <p>CONVERTENDO ARQUIVO</p>
-    <ul>
-    	<li>BUCKET: {{ bucket }}</li>
-    	<li>KEY: {{ key }}</li>
-    	<li>ETAG: {{ etag }}</li>
-    </ul>
-    
     {% if error %}
     	<p>ERRO AO CONVERTER ARQUIVO</p>
-    	<p>{{ error_message }}</p>
+    	<p>MENSAGEM: {{ error_message }}</p>
     {% else %}
     	<p>ARQUIVO CONVERTIDO CORRETAMENTE</p>
-    	<p><a href="/play_video/?bucket={{ bucket }}&key={{ key }}&etag={{ etag }}">Clique aqui para visualizar o vídeo.</a></p>
-    	<p><a href="{{ output_video_url }}" target= "_blank">Clique aqui</a> para fazer o download do arquivo salvo no Amazon S3.</p>
+    	<p><a href="{{ output_video_url }}" target= "_blank">Clique aqui</a> para fazer o download do arquivo convertido e salvo no Amazon S3.</p>
     {% endif %}
 	
-	<div id="passos">
-		PASSO 3 DE 4
-	</div>
-	
+	<p><a href="/play_video/?bucket={{ bucket }}&key={{ key }}&etag={{ etag }}">Avançar para o próximo passo</a></p>
 {% endblock content %}
+
+{% block steps %}
+	<p align="center">PASSO 3 DE 4</p>
+{% endblock steps %}

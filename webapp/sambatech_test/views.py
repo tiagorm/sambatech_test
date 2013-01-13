@@ -144,8 +144,6 @@ def index(request):
               )
 
 def file_uploaded(request):
-    #S3 will add bucket, key and etag parameters to this URL value to inform 
-    #your web application of the location and hash value of the uploaded file.
     
     bucket = None
     key = None
@@ -153,18 +151,9 @@ def file_uploaded(request):
     
     if request.method == 'GET':
         if len(request.GET):
-            try:
-                bucket = request.GET.get('bucket')
-            except:
-                bucket = "ERROR"
-            try:
-                key = request.GET.get('key')
-            except:
-                key = "ERROR"
-            try:
-                etag = request.GET.get('etag')
-            except:
-                etag = "ERROR"
+            bucket = request.GET.get('bucket')
+            key = request.GET.get('key')
+            etag = request.GET.get('etag')
     
     return render_to_response(
               'file_uploaded.html',
@@ -187,22 +176,19 @@ def convert(request):
     
     if request.method == 'GET':
         if len(request.GET):
-            try:
-                bucket = request.GET.get('bucket')
-            except:
+            bucket = request.GET.get('bucket')
+            if bucket is None:
                 error = True
-                bucket = "ERROR"
-            try:
-                key = request.GET.get('key')
-            except:
+                error_message = "Faltando parametro bucket"
+            key = request.GET.get('key')
+            if key is None:
                 error = True
-                key = "ERROR"
-            try:
-                etag = request.GET.get('etag')
-            except:
+                error_message = "Faltando parametro key"
+            etag = request.GET.get('etag')
+            if etag is None:
                 error = True
-                etag = "ERROR"
-    
+                error_message = "Faltando parametro etag"
+            
             if not error:
                 from zencoder import Zencoder
                 zen = Zencoder(api_key=settings.ZENCODER_API_KEY)
@@ -247,7 +233,6 @@ def convert(request):
                 else:
                     error = True
                 
-                #job = zen.job.create(url)
     return render_to_response(
               'convert.html',
               {
@@ -271,30 +256,22 @@ def play_video(request):
     
     if request.method == 'GET':
         if len(request.GET):
-            try:
-                bucket = request.GET.get('bucket')
-            except:
+            bucket = request.GET.get('bucket')
+            if bucket is None:
                 error = True
-                bucket = "ERROR"
-            try:
-                key = request.GET.get('key')
-            except:
+            key = request.GET.get('key')
+            if key is None:
                 error = True
-                key = "ERROR"
-            try:
-                etag = request.GET.get('etag')
-            except:
+            etag = request.GET.get('etag')
+            if etag is None:
                 error = True
-                etag = "ERROR"
-    
+            
             if not error:
                 RE_FILENAME = re.compile("uploads/(\d+-\d+-\d+_\d+-\d+-\d+_\d+-\d+-\d+-\d+_\S+)\.\S+$")
                 fields = re.match(RE_FILENAME,key)
                 if fields:                    
                     output_video_url = "http://"+bucket+".s3.amazonaws.com/public_videos/"+fields.group(1)+".mp4"
                             
-                
-                #job = zen.job.create(url)
     return render_to_response(
               'play_video.html',
               {

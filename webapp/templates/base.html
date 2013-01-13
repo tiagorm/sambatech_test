@@ -8,7 +8,6 @@
 		{% endblock meta %}
 
 		{% block style %}
-			{% comment %}<link href="{{ MEDIA_URL }}css/reset.css" rel="stylesheet" type="text/css" />{% endcomment %}
 		{% endblock style %}
 		
 		{% block scripts %}
@@ -16,9 +15,23 @@
 		
 	</head>
 
-	<body>
-	
-    {% block content %}{% endblock content %}
-
+	<body bgcolor="#99CCCC">
+		<table width="90%" cellpadding="10" cellspacing="0" border="2" align="center" bgcolor="white">
+			<tr>
+				<th>
+	    			{% block instruction %}{% endblock instruction %}
+				</th>
+			</tr>
+			<tr>
+				<td align="center">
+	    			{% block content %}{% endblock content %}
+				</td>
+			</tr>
+			<tr>
+				<th>
+	    			{% block steps %}{% endblock steps %}
+				</th>
+			</tr>
+		</table>
 	</body>
 </html>
