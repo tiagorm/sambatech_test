@@ -1,10 +1,12 @@
+Autor: Tiago Rodrigues de Magalhães
+
 Projeto criado para o teste de seleção da SambaTech
 
 Aplicação Web criada usango Django no diretorio webapp
 
-Funcionamente e decisões de implementação:
-    - Formulário envia arquivo diretamente para o Amazon S3, na pasta uploads
-    - Uso da API do Zencoder.com para converter arquivo .dv para arquivo .mp4, salvando no Amazon S3, na pasta public_videos
+Funcionamento e decisões de implementação:
+    - Formulário envia arquivo diretamente para o Amazon S3, na pasta /uploads
+    - Uso da API do Zencoder.com para converter arquivo .dv para arquivo .mp4, salvando no Amazon S3, na pasta /public_videos
     - Player usando html5
 
 Código testado com sucesso no navegador Google Chrome.
